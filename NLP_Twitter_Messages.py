@@ -13,7 +13,7 @@ df_training = pd.read_csv('Train50.csv', delimiter=';')
 
 '''Let's take a look at the dataset'''
 
-# PRINT 1
+# CHECK PRINT 1
 
 '''The sentiment data is important because we'll used it for predictions. So it's important to understand it.
 In this case 0 means negative emotions and 1 means positive emotions. Also we're checking if the dataset
@@ -25,7 +25,7 @@ df_training.drop(columns=['id', 'tweet_date', 'query_used'], inplace=True)
 sns.countplot(df_training['sentiment'], label='Count')
 plt.show()
 
-# PRINT 2
+# CHECK PRINT 2
 
 '''In this case, the training and test are in different files, so let's import the test dataset and apply the same
 conditions we applied in the training dataset. The data is balanced, just like the training data'''
@@ -38,7 +38,7 @@ df_test.drop(columns=['id', 'tweet_date', 'query_used'], inplace=True)
 print(df_training.isnull().sum())
 print(df_test.isnull().sum())
 
-# PRINT 3
+# CHECK PRINT 3
 
 '''Now I'm creating a function so we can transform upper case into lowercase letters, remove user names, whitespaces
 and emoticons, add some stopwords, apply lemmatization and remove some punctuations'''
@@ -84,7 +84,7 @@ test_text = pre_processing('Estava muito feliz naquele dia, :) e acabei comprand
 print(test_t)
 print(test_text)
 
-# PRINT 4
+# CHECK PRINT 4
 
 '''And apply the function to our training and test dataset and save it, because this text pre processing takes
 some time our datasets will look like that at the'''
@@ -100,7 +100,7 @@ df_test.to_csv('twitter_test_pre.csv')
 df_training = pd.read_csv('twitter_training_pre.csv')
 df_test = pd.read_csv('twitter_test_pre.csv')
 
-# PRINT 5
+# CHECK PRINT 5
 
 '''Now I'm taking the new datasets to Google Colab so I can use a differente version from Spacy, for this model
 I'll install the spacy version 2.2.3 fix the class we want to predict using 0 and 1 for Ture and False and
@@ -119,7 +119,7 @@ for text, emotion in zip(df_training['tweet_text'], df_training['sentiment']):
 
     df_training_final.append([text, dic.copy()])
 
-# PRINT 6
+# CHECK PRINT 6
 
 '''Now we can create the classifier'''
 
@@ -159,7 +159,7 @@ plt.xlabel('Batches')
 plt.ylabel('Error')
 plt.show()
 
-# PRINT 7
+# CHECK PRINT 7
 
 '''I'm also saving the model now because we only need this part to be done in Google Colab, I'll carry the
 model still on colab but I'm saving just in case'''
@@ -177,7 +177,7 @@ negative_text = 'estou meio chateado'
 pre_dict = model_loaded(negative_text)
 print(model_loaded(negative_text).cats)
 
-# PRINT 8
+# CHECK PRINT 8
 
 '''Now I'll submit the test dataset to the model and see how much accuracy we have for the model answers'''
 
@@ -199,7 +199,7 @@ real_answers = df_test['sentiment'].values
 
 print(accuracy_score(real_answers, final_prediction))
 
-# PRINT 9
+# CHECK PRINT 9
 
 '''As we can see we had a smaller accuracy, but still pretty high, let's check the confusion matrix
 to check the answers'''
@@ -208,7 +208,7 @@ cm = confusion_matrix(real_answers, final_prediction)
 sns.heatmap(cm, annot=True)
 plt.show()
 
-# PRINT 10
+# CHECK PRINT 10
 
 '''Now we can see the sentiment towards any hashtag or person towards a company or an event and see if
 the company should be using some trends and to understand the general sentiment with clouds or doing a
